@@ -17,7 +17,7 @@ mouse_speed = 5  # měníme
 mouse_speed_acceleration = 0.5  # neměníme
 mouse_behind_border = 100  #neměníme
 score = 0  # měníme
-coin_speed = 100
+coin_speed = 50
 
 player_lives = player_start_lives  # měníme
 mouse_curent_speed = mouse_speed
