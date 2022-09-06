@@ -17,6 +17,7 @@ mouse_speed = 5  # měníme
 mouse_speed_acceleration = 0.5  # neměníme
 mouse_behind_border = 100  #neměníme
 score = 0  # měníme
+coin_speed = 15
 
 player_lives = player_start_lives  # měníme
 mouse_curent_speed = mouse_speed
@@ -70,6 +71,11 @@ mouse_image_rect = mouse_image.get_rect()
 mouse_image_rect.x = width + mouse_behind_border  # left
 mouse_image_rect.y = random.randint(60, height-48)   # top
 
+coin_image = pygame.image.load("img/coin-icon.png")
+coin_image_rect = coin_image.get_rect()
+coin_image_rect.centerx = width - 20
+coin_image_rect.centery = 60
+
 
 # Hlavní cyklus
 lets_continue = True
@@ -102,6 +108,7 @@ while lets_continue:
         mouse_image_rect.x = width + mouse_behind_border
         mouse_image_rect.y = random.randint(60, height - 48)
         catch_mouse_sound.play()
+        coin_image_rect.centerx -= coin_speed
 
     # znovu vykresleni obrazovky
     screen.fill(black)
@@ -128,6 +135,7 @@ while lets_continue:
     # obrazky
     screen.blit(cat_image, cat_image_rect)
     screen.blit(mouse_image, mouse_image_rect)
+    screen.blit(coin_image, coin_image_rect)
 
     # kontrola konce hry, UPDATE !!!!!
     if player_lives == 0:
