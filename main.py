@@ -111,7 +111,7 @@ while lets_continue:
         screen.blit(continue_text, continue_text_rect)
         pygame.display.update()
         pygame.mixer.music.stop()
-        coin_image_rect.centerx = width - 15
+        coin_image_rect.left = width - 100
 
         pause = True
         while pause:
