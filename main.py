@@ -17,7 +17,7 @@ mouse_speed = 5  # měníme
 mouse_speed_acceleration = 0.5  # neměníme
 mouse_behind_border = 100  #neměníme
 score = 0  # měníme
-coin_speed = 15
+coin_speed = 100
 
 player_lives = player_start_lives  # měníme
 mouse_curent_speed = mouse_speed
@@ -52,6 +52,10 @@ continue_text = game_font_middle.render("Chces hrat znovu? Stiskni libovolnou kl
 continue_text_rect = continue_text.get_rect()
 continue_text_rect.center = (width//2, height//2 + 40)
 
+victory_text = game_font_middle.render("Vyhrali jste. Ziskali jste zlatou minci", True, dark_yellow)
+victory_text_rect = victory_text.get_rect()
+victory_text_rect.center = (width//2, height//2)
+
 # zvuky a hudba v pozadí, -1 nekonečno
 pygame.mixer.music.load("music/bgmusic.wav")
 pygame.mixer.music.play(-1, 0.0)
@@ -73,7 +77,7 @@ mouse_image_rect.y = random.randint(60, height-48)   # top
 
 coin_image = pygame.image.load("img/coin-icon.png")
 coin_image_rect = coin_image.get_rect()
-coin_image_rect.centerx = width - 20
+coin_image_rect.centerx = width - 100   # left
 coin_image_rect.centery = 60
 
 
@@ -100,6 +104,29 @@ while lets_continue:
        loose_life_sound.play()
     else:
         mouse_image_rect.x -= mouse_curent_speed
+
+    # kontrola pozice mince
+    if coin_image_rect.left <= 0:
+        screen.blit(victory_text, victory_text_rect)
+        screen.blit(continue_text, continue_text_rect)
+        pygame.display.update()
+        pygame.mixer.music.stop()
+        coin_image_rect.centerx = width - 15
+
+        pause = True
+        while pause:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    score = 0
+                    player_lives = player_start_lives
+                    mouse_curent_speed = mouse_speed
+                    cat_image_rect.y = height // 2
+                    pause = False
+                    pygame.mixer.music.play(-1, 0.0)
+                elif event.type == pygame.QUIT:
+                    pause = False
+                    lets_continue = False
+
 
     # kontrola kolize
     if cat_image_rect.colliderect(mouse_image_rect):
@@ -154,6 +181,7 @@ while lets_continue:
                     cat_image_rect.y = height//2
                     pause = False
                     pygame.mixer.music.play(-1, 0.0)
+                    coin_image_rect.left = width - 100
                 elif event.type == pygame.QUIT:
                     pause = False
                     lets_continue = False
